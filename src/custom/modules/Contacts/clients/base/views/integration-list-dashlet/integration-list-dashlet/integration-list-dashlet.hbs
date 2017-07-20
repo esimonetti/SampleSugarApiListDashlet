@@ -1,0 +1,31 @@
+{{#if response}}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            {{#each response.headers}}
+                <th class="{{#if widthClass}}{{widthClass}}{{/if}}"
+                {{#if styles}} style="{{styles}}"{{/if}}>
+                    <span>{{this}}</span>
+                </th>
+            {{/each}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each response.data}}
+            <tr class="single">
+                {{#each this}}
+                    <td{{#if align}} class="{{align}}"{{/if}}>{{this}}</td>
+                {{/each}}
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+    <div class="block-footer">
+        {{#if errorThrown}}
+        {{str "LBL_NO_DATA_AVAILABLE"}}
+        {{else}}
+        {{loading 'LBL_ALERT_TITLE_LOADING'}}
+        {{/if}}
+    </div>
+{{/if}}
