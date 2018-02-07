@@ -14,7 +14,7 @@ class IntegrationListApi extends SugarApi
             array(
                 'reqType' => 'GET',
                 'path' => array('Contacts', '?', 'integration', '?'),
-                'pathVars' => array('', 'contact_id', '', 'type'),
+                'pathVars' => array('module', 'record', '', 'type'),
                 'method' => 'getIntegrationData',
                 'shortHelp' => 'Get Integration data',
                 'longHelp' => '',
@@ -24,11 +24,11 @@ class IntegrationListApi extends SugarApi
     
     public function getIntegrationData($api, $args)
     {
-        if(empty($args['contact_id']) || empty($args['type'])) {
-            throw new SugarApiExceptionInvalidParameter();
-        }
+        $this->requireArgs($args, array('module', 'record', 'type'));
 
-        $record = BeanFactory::getBean('Contacts', $args['contact_id']);
+        /** @var Contact $record */
+        $record = $this->loadBean($api, $args, 'view');
+        
         if(!empty($record->id)) {
 
             // here there should be the logic to retrieve data from the external system based on the input record
